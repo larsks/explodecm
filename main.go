@@ -12,6 +12,7 @@ import (
 
 func main() {
 	destDir := flag.String("d", ".", "destination directory")
+	includeZeroLength := flag.Bool("z", false, "include empty keys")
 	flag.Parse()
 
 	var cm corev1.ConfigMap
@@ -22,7 +23,7 @@ func main() {
 
 	err = json.Unmarshal(bytes, &cm)
 	for k, v := range cm.Data {
-		if v != "" {
+		if *includeZeroLength || v != "" {
 			path := filepath.Join(*destDir, k)
 			if err := os.WriteFile(path, []byte(v), 0644); err != nil {
 				panic(err)
