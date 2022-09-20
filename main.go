@@ -9,6 +9,8 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/larsks/explodecm/version"
+
 	corev1 "k8s.io/api/core/v1"
 )
 
@@ -36,6 +38,7 @@ func contains(haystack []string, needle string) bool {
 }
 
 func main() {
+	log.Printf("built on %s from %s", version.BuildDate, version.BuildRef)
 	flag.Parse()
 
 	selected := flag.Args()
