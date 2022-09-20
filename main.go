@@ -4,7 +4,7 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"flag"
-	"io/ioutil"
+	"io"
 	"log"
 	"os"
 	"path/filepath"
@@ -41,7 +41,7 @@ func main() {
 	selected := flag.Args()
 
 	var cm corev1.ConfigMap
-	bytes, err := ioutil.ReadAll(os.Stdin)
+	bytes, err := io.ReadAll(os.Stdin)
 	if err != nil {
 		panic(err)
 	}
