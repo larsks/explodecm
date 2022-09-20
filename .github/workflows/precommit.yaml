@@ -1,6 +1,10 @@
 on:
   push:
+    paths-ignore:
+      - 'changelog/**'
+
   pull_request:
+  workflow_call:
 
 jobs:
   run-pre-commit:
