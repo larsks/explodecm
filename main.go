@@ -16,6 +16,7 @@ import (
 
 var (
 	destDir          *string
+	makeDir          *bool
 	includeEmptyKeys *bool
 	verbose          *bool
 	base64decode     *bool
@@ -23,6 +24,7 @@ var (
 
 func init() {
 	destDir = flag.String("d", ".", "destination directory")
+	makeDir = flag.Bool("m", false, "create destination directory")
 	includeEmptyKeys = flag.Bool("z", false, "include empty keys")
 	verbose = flag.Bool("v", false, "log filenames")
 	base64decode = flag.Bool("b", false, "base64 decode content before writing")
@@ -56,6 +58,12 @@ func main() {
 	if cm.Kind == "Secret" {
 		log.Printf("will base64 decode values for secrets")
 		*base64decode = true
+	}
+
+	if *makeDir {
+		if err := os.Mkdir(*destDir, 0755); err != nil && !os.IsExist(err) {
+			panic(err)
+		}
 	}
 
 	for k, v := range cm.Data {
